@@ -3,6 +3,12 @@
 Changelog
 =========
 
+Version 2.0.1
+-------------
+
+* `PR-34 <https://github.com/confluentinc/camus/pull/34>`_ - Update Kafka to 0.9.0.1-cp1 and bump
+  project version to 2.0.1
+
 Version 2.0.0
 -------------
 

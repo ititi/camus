@@ -90,7 +90,7 @@ public class KafkaCluster {
 
   private static KafkaServer startBroker(Properties props) {
     Option<String> noThreadNamePrefix = Option.empty();
-    KafkaServer server = new KafkaServer(new KafkaConfig(props), new SystemTime(), noThreadNamePrefix);
+    KafkaServer server = new KafkaServer(KafkaConfig.fromProps(props), new SystemTime(), noThreadNamePrefix);
     server.startup();
     return server;
   }

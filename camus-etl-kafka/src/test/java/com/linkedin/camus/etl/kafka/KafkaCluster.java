@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -147,8 +148,8 @@ public class KafkaCluster {
      */
     public void shutdown() {
       factory.shutdown();
-      CoreUtils.rm(snapshotDir);
-      CoreUtils.rm(logDir);
+      List<String> directories = Arrays.asList(snapshotDir.getAbsolutePath(), logDir.getAbsolutePath());
+      CoreUtils.delete(scala.collection.JavaConversions.asScalaBuffer(directories).seq());
     }
 
     public String getConnection() {

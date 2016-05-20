@@ -7,9 +7,10 @@ Camus
 
    .. deprecated:: 3.0.0
 
-      Camus is deprecated in Confluent Platform and may be removed in the next major version.
-      We recommend :ref:`Kafka Connect<kafka_connect>` and the :ref:`HDFS connector<connect_hdfs>`
-      to export data from Kafka to HDFS and Hive.
+      Camus in Confluent Platform is deprecated in Confluent Platform 3.0 and may be removed in a release after
+      Confluent Platform 3.1.  To export data from Kafka to HDFS and Hive, we recommend
+      :ref:`Kafka Connect <kafka_connect>` with the :ref:`Confluent HDFS connector <connect_hdfs>` as an alternative.
+
 
 Camus is a simple MapReduce job developed by LinkedIn to load data from Kafka into HDFS.
 It is capable of incrementally copying data from Kafka into HDFS such that

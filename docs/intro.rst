@@ -180,8 +180,8 @@ Development
 
 To build a development version of Camus, you need to get the development version of the
 `Schema Registry <https://github.com/confluentinc/schema-registry>`_ and its dependencies
-and install it into local Maven repository. Once the dependencies are installed, you can build
-Confluent version of Camus as follows:
+and install it into your local Maven repository. Once the dependencies are installed, you can build
+the Confluent version of Camus as follows:
 
 .. sourcecode:: bash
 

@@ -5,7 +5,7 @@ Camus
 
 .. warning::
 
-   .. deprecated:: 3.0.0
+   .. deprecated:: 3.0.1
 
       Camus in Confluent Platform is deprecated in Confluent Platform 3.0 and may be removed in a release after
       Confluent Platform 3.1.  To export data from Kafka to HDFS and Hive, we recommend
@@ -193,8 +193,8 @@ Requirements
 ------------
 
 - Hadoop: Camus works with both MRv1 and YARN. We recommend CDH 5.3.x or HDP 2.2.x.
-- Kafka: 0.10.0.1-SNAPSHOT
-- Schema Registry: Confluent Schema Registry 3.0.0
+- Kafka: 0.10.0.1
+- Schema Registry: Confluent Schema Registry 3.0.1
 
 Contribute
 ----------

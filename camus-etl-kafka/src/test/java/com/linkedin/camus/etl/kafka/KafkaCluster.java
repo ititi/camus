@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServer;
@@ -105,6 +106,10 @@ public class KafkaCluster {
 
     public long nanoseconds() {
       return System.nanoTime();
+    }
+
+    public long hiResClockMs() {
+      return TimeUnit.NANOSECONDS.toMillis(nanoseconds());
     }
 
     public void sleep(long ms) {

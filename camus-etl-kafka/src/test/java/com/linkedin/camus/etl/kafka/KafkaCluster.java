@@ -6,11 +6,13 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import kafka.metrics.KafkaMetricsReporter;
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServer;
 import kafka.utils.Time;
@@ -18,7 +20,6 @@ import kafka.utils.CoreUtils;
 import org.apache.zookeeper.server.NIOServerCnxnFactory;
 import scala.Option;
 
-import org.apache.zookeeper.server.NIOServerCnxn;
 import org.apache.zookeeper.server.ZooKeeperServer;
 
 
@@ -93,7 +94,8 @@ public class KafkaCluster {
 
   private static KafkaServer startBroker(Properties props) {
     Option<String> noThreadNamePrefix = Option.empty();
-    KafkaServer server = new KafkaServer(KafkaConfig.fromProps(props), new SystemTime(), noThreadNamePrefix);
+    KafkaServer server = new KafkaServer(KafkaConfig.fromProps(props), new SystemTime(), noThreadNamePrefix,
+            scala.collection.JavaConversions.asScalaBuffer(Collections.<KafkaMetricsReporter>emptyList()));
     server.startup();
     return server;
   }

@@ -3,6 +3,11 @@
 Changelog
 =========
 
+Version 3.1.0
+-------------
+
+* `PR-45 <https://github.com/confluentinc/camus/pull/45>`_ - Add new hiResClockMs method of Time interface to SystemTime.
+
 Version 3.0.0
 -------------
 

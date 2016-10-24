@@ -5,6 +5,7 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicReference;
 
 import kafka.api.PartitionFetchInfo;
 import kafka.common.TopicAndPartition;
@@ -95,14 +96,17 @@ public class KafkaReader {
    * @param key
    * @param payload
    * @param pKey
+   * @param messageRef
    * @return true if there exists more events
    * @throws IOException
    */
-  public boolean getNext(EtlKey key, BytesWritable payload, BytesWritable pKey) throws IOException {
+  public boolean getNext(EtlKey key, BytesWritable payload, BytesWritable pKey,
+                         AtomicReference<Message> messageRef) throws IOException {
     if (hasNext()) {
 
       MessageAndOffset msgAndOffset = messageIter.next();
       Message message = msgAndOffset.message();
+      messageRef.set(message);
 
       ByteBuffer buf = message.payload();
       int origSize = buf.remaining();

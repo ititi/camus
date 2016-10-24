@@ -9,22 +9,22 @@ import com.linkedin.camus.etl.kafka.common.EtlRequest;
 import com.linkedin.camus.etl.kafka.common.ExceptionWritable;
 import com.linkedin.camus.etl.kafka.common.KafkaReader;
 
-import java.io.IOException;
-import java.util.HashSet;
-
-import kafka.message.Message;
-
 import org.apache.hadoop.fs.ChecksumException;
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicReference;
+
+import kafka.message.Message;
 
 
 public class EtlRecordReader extends RecordReader<EtlKey, CamusWrapper> {
@@ -83,7 +83,7 @@ public class EtlRecordReader extends RecordReader<EtlKey, CamusWrapper> {
     this.context = context;
 
     if (context instanceof Mapper.Context) {
-      mapperContext = (Context) context;
+      mapperContext = (Mapper.Context) context;
     }
 
     this.skipSchemaErrors = EtlInputFormat.getEtlIgnoreSchemaErrors(context);
@@ -230,7 +230,8 @@ public class EtlRecordReader extends RecordReader<EtlKey, CamusWrapper> {
           decoder = MessageDecoderFactory.createMessageDecoder(context, request.getTopic());
         }
         int count = 0;
-        while (reader.getNext(key, msgValue, msgKey)) {
+        AtomicReference<Message> messageRef = new AtomicReference<Message>();
+        while (reader.getNext(key, msgValue, msgKey, messageRef)) {
           readBytes += key.getMessageSize();
           count++;
           context.progress();
@@ -240,13 +241,22 @@ public class EtlRecordReader extends RecordReader<EtlKey, CamusWrapper> {
           byte[] keyBytes = getBytes(msgKey);
           // check the checksum of message.
           // If message has partition key, need to construct it with Key for checkSum to match
-          Message messageWithKey = new Message(bytes, keyBytes);
-          Message messageWithoutKey = new Message(bytes);
+          Message originalMessage = messageRef.get();
+          Message messageWithKey = new Message(bytes, keyBytes,
+                                               originalMessage.timestamp(),
+                                               originalMessage.timestampType(),
+                                               originalMessage.compressionCodec(),
+                                               0, -1, originalMessage.magic());
+          Message messageWithoutKey = new Message(bytes, null,
+                                                  originalMessage.timestamp(),
+                                                  originalMessage.timestampType(),
+                                                  originalMessage.compressionCodec(),
+                                                  0, -1, originalMessage.magic());
           long checksum = key.getChecksum();
           if (checksum != messageWithKey.checksum() && checksum != messageWithoutKey.checksum()) {
             throw new ChecksumException("Invalid message checksum : MessageWithKey : " + messageWithKey.checksum()
-                + " MessageWithoutKey checksum : " + messageWithoutKey.checksum() + ". Expected " + key.getChecksum(),
-                key.getOffset());
+                                        + " MessageWithoutKey checksum : " + messageWithoutKey.checksum() + ". Expected " + key.getChecksum(),
+                                        key.getOffset());
           }
 
           long tempTime = System.currentTimeMillis();

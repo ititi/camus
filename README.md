@@ -122,7 +122,7 @@ Here is an abbreviated list of commonly used parameters.  An example properties 
 
 Camus can be run from the command line using hadoop jar.  Here is the usage:
 ```
-usage: hadoop jar camus-example-<version>-SNAPSHOT.jar com.linkedin.camus.etl.kafka.CamusJob  <br/>
+usage: hadoop jar camus-example-<version>.jar com.linkedin.camus.etl.kafka.CamusJob  <br/>
  -D <property=value>   use value for given property<br/>
  -P <arg>              external properties filename<br/>
  -p <arg>              properties filename from the classpath<br/>

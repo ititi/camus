@@ -107,7 +107,7 @@ public class AvroMessageDecoder extends MessageDecoder<byte[], Record> {
       }
       ByteBuffer buffer = getByteBuffer(payload);
       int id = buffer.getInt();
-      Schema schema = schemaRegistry.getByID(id);
+      Schema schema = schemaRegistry.getById(id);
       if (schema == null)
         throw new IllegalStateException("Unknown schema id: " + id);
       if (logger.isDebugEnabled()) {

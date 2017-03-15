@@ -3,6 +3,15 @@
 Changelog
 =========
 
+Version 3.2.0
+-------------
+
+* `PR-49 <https://github.com/confluentinc/camus/pull/49>`_ - Update to use o.a.k.common.utils.Time.
+
+Version 3.1.2
+-------------
+No changes
+
 Version 3.1.1
 -------------
 No changes

@@ -3,6 +3,12 @@
 Changelog
 =========
 
+Version 3.3.0
+-------------
+
+* `PR-51 <https://github.com/confluentinc/camus/pull/51>`_ - Switch to the non-deprecated API in SchemaRegistryClient.
+* `PR-54 <https://github.com/confluentinc/camus/pull/54>`_ - Upgrade avro to 1.8.2.
+
 Version 3.2.2
 -------------
 

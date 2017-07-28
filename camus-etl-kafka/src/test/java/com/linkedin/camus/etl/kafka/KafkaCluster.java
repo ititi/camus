@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
+import kafka.metrics.KafkaMetricsReporter;
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServer;
-import kafka.utils.Time;
-import kafka.utils.Utils;
+import kafka.utils.CoreUtils;
+import org.apache.kafka.common.utils.Time;
+import org.apache.zookeeper.server.NIOServerCnxnFactory;
+import scala.Option;
 
-import org.apache.zookeeper.server.NIOServerCnxn;
 import org.apache.zookeeper.server.ZooKeeperServer;
 
 
@@ -88,28 +93,11 @@ public class KafkaCluster {
   }
 
   private static KafkaServer startBroker(Properties props) {
-    KafkaServer server = new KafkaServer(new KafkaConfig(props), new SystemTime());
+    Option<String> noThreadNamePrefix = Option.empty();
+    KafkaServer server = new KafkaServer(KafkaConfig.fromProps(props), Time.SYSTEM, noThreadNamePrefix,
+            scala.collection.JavaConversions.asScalaBuffer(Collections.<KafkaMetricsReporter>emptyList()));
     server.startup();
     return server;
-  }
-
-  public static class SystemTime implements Time {
-
-    public long milliseconds() {
-      return System.currentTimeMillis();
-    }
-
-    public long nanoseconds() {
-      return System.nanoTime();
-    }
-
-    public void sleep(long ms) {
-      try {
-        Thread.sleep(ms);
-      } catch (InterruptedException e) {
-        // Ignore
-      }
-    }
   }
 
   private static class EmbeddedZookeeper {
@@ -117,7 +105,7 @@ public class KafkaCluster {
     private final int port;
     private final File snapshotDir;
     private final File logDir;
-    private final NIOServerCnxn.Factory factory;
+    private final NIOServerCnxnFactory factory;
 
     /**
      * Constructs an embedded Zookeeper instance.
@@ -130,7 +118,8 @@ public class KafkaCluster {
       this.port = getAvailablePort();
       this.snapshotDir = getTempDir();
       this.logDir = getTempDir();
-      this.factory = new NIOServerCnxn.Factory(new InetSocketAddress("localhost", port), 1024);
+      this.factory = new NIOServerCnxnFactory();
+      factory.configure(new InetSocketAddress("127.0.0.1", port), 1024);
 
       try {
         int tickTime = 500;
@@ -145,12 +134,12 @@ public class KafkaCluster {
      */
     public void shutdown() {
       factory.shutdown();
-      Utils.rm(snapshotDir);
-      Utils.rm(logDir);
+      List<String> directories = Arrays.asList(snapshotDir.getAbsolutePath(), logDir.getAbsolutePath());
+      CoreUtils.delete(scala.collection.JavaConversions.asScalaBuffer(directories).seq());
     }
 
     public String getConnection() {
-      return "localhost:" + port;
+      return "127.0.0.1:" + port;
     }
 
   }

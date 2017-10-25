@@ -24,13 +24,15 @@ import org.apache.avro.generic.IndexedRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Properties;
 
-import io.confluent.camus.etl.kafka.coders.AvroMessageDecoder;
 import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import io.confluent.kafka.serializers.KafkaAvroEncoder;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
+import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
+import kafka.utils.VerifiableProperties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -38,7 +40,18 @@ import static org.junit.Assert.fail;
 public class AvroMessageDecoderTest {
   private final SchemaRegistryClient schemaRegistry = new MockSchemaRegistryClient();
   private final KafkaAvroSerializer avroSerializer = new KafkaAvroSerializer(schemaRegistry);
-  private final KafkaAvroEncoder avroEncoder = new KafkaAvroEncoder(schemaRegistry);
+  private final KafkaAvroEncoder avroEncoder;
+
+  public AvroMessageDecoderTest() {
+    avroSerializer.configure(Collections.singletonMap(
+        KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG,
+        "http://localhost:8081"
+    ), false);
+
+    Properties props = new Properties();
+    props.setProperty("schema.registry.url", "http://localhost:8081");
+    avroEncoder = new KafkaAvroEncoder(schemaRegistry, new VerifiableProperties(props));
+  }
 
   private IndexedRecord createAvroRecordVersion1() {
     String userSchema = "{\"namespace\": \"example.avro\", \"type\": \"record\", " +
@@ -92,7 +105,7 @@ public class AvroMessageDecoderTest {
     Object record = decoder.decode(payload).getRecord();
     assertEquals(avroRecord, record);
 
-    payload= avroEncoder.toBytes(avroRecord);
+    payload = avroEncoder.toBytes(avroRecord);
     AvroMessageDecoder decoder2 = createAvroDecoder(topic, false, schemaRegistry);
     record = decoder2.decode(payload).getRecord();
     assertEquals(avroRecord, record);

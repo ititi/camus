@@ -3,6 +3,12 @@
 Changelog
 =========
 
+Version 4.0.0
+-------------
+
+* `PR-58 <https://github.com/confluentinc/camus/pull/58>`_ - Properly configure serializer/encoder in AvroMessageDecoderTest.
+* `PR-55 <https://github.com/confluentinc/camus/pull/55>`_ - Add log configuration for tests.
+
 Version 3.3.1
 -------------
 

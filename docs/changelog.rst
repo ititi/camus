@@ -3,6 +3,12 @@
 Changelog
 =========
 
+Version 3.3.1
+-------------
+
+* `PR-59 <https://github.com/confluentinc/camus/pull/59>`_ - Update zookeeper dependency version
+* `PR-57 <https://github.com/confluentinc/camus/pull/57>`_ - Add upstream project so build are triggered automatically
+
 Version 3.3.0
 -------------
 

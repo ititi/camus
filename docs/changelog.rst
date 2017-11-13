@@ -3,6 +3,18 @@
 Changelog
 =========
 
+Version 4.0.0
+-------------
+
+* `PR-58 <https://github.com/confluentinc/camus/pull/58>`_ - Properly configure serializer/encoder in AvroMessageDecoderTest.
+* `PR-55 <https://github.com/confluentinc/camus/pull/55>`_ - Add log configuration for tests.
+
+Version 3.3.1
+-------------
+
+* `PR-59 <https://github.com/confluentinc/camus/pull/59>`_ - Update zookeeper dependency version
+* `PR-57 <https://github.com/confluentinc/camus/pull/57>`_ - Add upstream project so build are triggered automatically
+
 Version 3.3.0
 -------------
 

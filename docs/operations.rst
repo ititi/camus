@@ -1,7 +1,7 @@
 .. _camus_operations:
 
-Operations
-==========
+Camus Operations
+================
 
 In this section, you will learn how to use Camus in production.
 

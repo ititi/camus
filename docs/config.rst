@@ -1,7 +1,7 @@
 .. _camus_config:
 
-Configuration Options
-=====================
+Camus Configuration Options
+===========================
 
 Schema Registry Configuration
 -----------------------------

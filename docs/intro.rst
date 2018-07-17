@@ -193,8 +193,8 @@ Requirements
 ------------
 
 - Hadoop: Camus works with both MRv1 and YARN. We recommend CDH 5.3.x or HDP 2.2.x.
-- Kafka: 0.11.0.4-SNAPSHOT
-- Schema Registry: Confluent Schema Registry 3.3.2-SNAPSHOT
+- Kafka: 0.11.0.3-SNAPSHOT
+- Schema Registry: Confluent Schema Registry 3.3.3-SNAPSHOT
 
 Contribute
 ----------

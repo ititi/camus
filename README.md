@@ -1,4 +1,6 @@
 # Intro
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fconfluentinc%2Fcamus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fconfluentinc%2Fcamus?ref=badge_shield)
+
 Camus is LinkedIn's [Kafka](http://kafka.apache.org "Kafka")->HDFS pipeline. It is a mapreduce job that does distributed data loads out of Kafka. It includes the following features:
 
 * Automatic discovery of topics
@@ -127,3 +129,7 @@ usage: hadoop jar camus-example-<version>-SNAPSHOT.jar com.linkedin.camus.etl.ka
  -P <arg>              external properties filename<br/>
  -p <arg>              properties filename from the classpath<br/>
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fconfluentinc%2Fcamus.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fconfluentinc%2Fcamus?ref=badge_large)

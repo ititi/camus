@@ -8,7 +8,7 @@
 
 	<groupId>com.linkedin.camus</groupId>
 	<artifactId>camus-parent</artifactId>
-	<version>4.1.1</version>
+	<version>4.1.1-cp1</version>
 	<packaging>pom</packaging>
 	<name>Camus Parent</name>
 	<description>Camus is LinkedIn's Kafka->HDFS pipeline. It is a mapreduce job that does distributed data loads out of Kafka.</description>
@@ -18,7 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<confluent.maven.repo>http://packages.confluent.io/maven/</confluent.maven.repo>
 		<kafka.scala.version>2.11</kafka.scala.version>
-		<kafka.version>1.1.1-cp1</kafka.version>
+		<kafka.version>1.1.0-cp2</kafka.version>
 		<avro.version>1.8.2</avro.version>
 	</properties>
 

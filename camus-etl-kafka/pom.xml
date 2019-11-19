@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.linkedin.camus</groupId>
 		<artifactId>camus-parent</artifactId>
-		<version>4.0.3</version>
+		<version>4.0.3-cp1</version>
 	</parent>
 
 	<artifactId>camus-etl-kafka</artifactId>
